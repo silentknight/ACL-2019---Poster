@@ -20,6 +20,7 @@
 \usepackage[font=small,labelfont=bf]{caption} % Required for specifying captions to tables and figures
 \usepackage{amsfonts, amsmath, amsthm, amssymb} % For math fonts, symbols and environments
 \usepackage{wrapfig} % Allows wrapping text around tables and figures
+\usepackage{multirow}
 
 \begin{document}
 
@@ -141,6 +142,8 @@ Treatment 3 & 0.0009271 & 0.296 \\
 \captionof{table}{\color{Green} Table caption}
 \end{wraptable}
 %
+
+
 Phasellus imperdiet, tortor vitae congue bibendum, felis enim sagittis lorem, et volutpat ante orci sagittis mi. Morbi rutrum laoreet semper. Morbi accumsan enim nec tortor consectetur non commodo nisi sollicitudin. Proin sollicitudin. Pellentesque eget orci eros. Fusce ultricies, tellus et pellentesque fringilla, ante massa luctus libero, quis tristique purus urna nec nibh.
 
 Nulla ut porttitor enim. Suspendisse venenatis dui eget eros gravida tempor. Mauris feugiat elit et augue placerat ultrices. Morbi accumsan enim nec tortor consectetur non commodo. Pellentesque condimentum dui. Etiam sagittis purus non tellus tempor volutpat. Donec et dui non massa tristique adipiscing. Quisque vestibulum eros eu. Phasellus imperdiet, tortor vitae congue bibendum, felis enim sagittis lorem, et volutpat ante orci sagittis mi. Morbi rutrum laoreet semper. Morbi accumsan enim nec tortor consectetur non commodo nisi sollicitudin.
@@ -150,22 +153,46 @@ Nulla ut porttitor enim. Suspendisse venenatis dui eget eros gravida tempor. Mau
 \captionof{figure}{\color{Green} Figure caption}
 \end{center}\vspace{1cm}
 
+\begin{center}\vspace{1cm}
+\includegraphics[width=0.5\linewidth]{spk_len.png}
+\captionof{figure}{\color{Green} Figure caption}
+\end{center}\vspace{1cm}
+
 In hac habitasse platea dictumst. Etiam placerat, risus ac.
 
 Adipiscing lectus in magna blandit:
 
-\begin{center}\vspace{1cm}
-\begin{tabular}{l l l l}
+\begin{tabular}{c c}
+
+\begin{center}
+\begin{tabular}{c c c c c}
 \toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+\multirow{2}{*}{Models} & \multicolumn{4}{c}{Test Perplexity in \emph{bpc}} \\ \cline{2-5}
+    & SP$2$ & SP$4$ & SP$8$ & SP$16$ \\
 \midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
+$1$   & $1.6855$ & $1.8038$ & $1.9611$ & $2.0759$ \\
+$2$   & $1.413$ & $1.486$ & $1.658$ & $1.708$ \\
 \bottomrule
 \end{tabular}
-\captionof{table}{\color{Green} Table caption}
-\end{center}\vspace{1cm}
+\captionof{table}{Perplexity score of $1$: Transformer-XL and $2$: AWD-LSTM models of SP$2$, SP$4$, SP$8$ and SP$16$ datasets with vocabulary size $V{=}4$}
+\label{tab:perplexity_score_v4}
+\end{center}
+
+\begin{center}
+\begin{tabular}{c c c c c}
+\toprule
+\multirow{2}{*}{Models} & \multicolumn{4}{c}{Test Perplexity in \emph{bpc}} \\ \cline{2-5}
+     & SP$2$ & SP$4$ & SP$6$ & SP$8$ \\
+\midrule
+$1$  & $4.6846$ & $4.7320$ & $4.7384$ & $4.7385$ \\
+$2$  & $4.525$ & $4.635$ & $4.707$ & $4.708$ \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Perplexity score of $1$: Transformer-XL and $2$: AWD-LSTM models of SP$2$, SP$4$, SP$6$ and SP$8$ datasets with vocabulary size $V{=}26$}
+\label{tab:perplexity_score_v26}
+\end{center}
+
+\end{tabular}
 
 Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut arcu fringilla et adipiscing ligula rutrum. Aenean turpis velit, placerat eget tincidunt nec, ornare in nisl. In placerat.
 
