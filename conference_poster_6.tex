@@ -27,7 +27,6 @@
 \usepackage{algpseudocode}
 \usepackage[english]{babel}
 \usepackage{caption}
-\usepackage{subcaption}
 \usepackage[caption=false]{subfig}
 \usepackage{lipsum}
 
@@ -41,7 +40,7 @@
 \end{minipage}
 \begin{minipage}[c]{0.75\linewidth}
 \veryHuge \color{tudLogoColor} \textbf{Multi-Element Long Distance Dependencies:}\\ % Title
-\Huge\textbf{Using SPk Languages to Explore the Characteristics of Long Distance Dependencies} \color{Black}\\[1cm] % Subtitle
+\Huge\textbf{Using SP\emph{k} Languages to Explore the Characteristics of Long Distance Dependencies} \color{Black}\\[1cm] % Subtitle
 \huge\fontfamily{put}\textbf{Abhijit Mahalunkar \& Prof. John D. Kelleher}\\[0.5cm]
 \huge Technological University Dublin, Ireland\\[0.4cm]
 \Large \texttt{abhijit.mahalunkar@mydit.ie \& john.d.kelleher@dit.ie}\\
@@ -52,6 +51,7 @@
 %----------------------------------------------------------------------------------------
 
 \begin{multicols}{2}
+\fontfamily{pvh}\selectfont
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
@@ -67,9 +67,12 @@
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Introduction}
 
-LDDs are related to the rate of decay of statistical dependence of two points with increasing time interval or spatial distance between them. To date, most research on LDDs has focused on the distance the dependency spans within the sequence. We show the complexity of LDDs not only arises from the distance but also a number of other factors, including: (i) the number of unique symbols in a dataset, (ii) the size of the dataset, (iii) the number of interacting symbols within an LDD, and (iv) the distance between the interacting symbols. We use SPk languages to explore the complexity of LDDs.
+\color{black}
+LDDs are related to the rate of decay of statistical dependence of two points with increasing time interval or spatial distance between them. To date, most research on LDDs has focused on the distance the dependency spans within the sequence. We show the complexity of LDDs not only arises from the distance but also a number of other factors, including: (i) the number of unique symbols in a dataset, (ii) the size of the dataset, (iii) the number of interacting symbols within an LDD, and (iv) the distance between the interacting symbols. We use SP\emph{k} languages to explore the complexity of LDDs.
 
 One aspect of LDDs that has been neglected in the research on LDDs is the complexity that arises from a multi-element dependency (i.e., dependencies that involves interactions between more than 2 elements). By controlling \emph{k} in the SP\emph{k} grammar, it is possible to generate datasets with varying degrees of multi-element dependency. We explore whether attention mechanism can help with multi-element LDDs using two models, Transformer-XL and AWD-LSTM.
 
@@ -77,8 +80,11 @@ One aspect of LDDs that has been neglected in the research on LDDs is the comple
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Main Objectives}
 
+\color{black}
 \begin{enumerate}
 \item Use Strictly \emph{k}-Piecewise languages to generate datasets with varying (i) \emph{k}, (ii) length of LDDs, (iii) vocabulary size, (iv) forbidden subsequences, and (v) dataset size.
 \item Compute the characteristics of the LDDs in these datasets using mutual information and analyze the impact of factors.
@@ -97,26 +103,34 @@ One aspect of LDDs that has been neglected in the research on LDDs is the comple
 Mutual information $I(X,Y)$ measures dependence between random variables $X$ and $Y$. These random variables have marginal distributions $p(x)$ and $p(y)$ and are jointly distributed as $p(x,y)$. It can also be expressed using the \emph{entropy} of $X$ and $Y$ i.e. $H(X)$, $H(Y)$ and their \emph{joint entropy}, $H(X,Y)$. The \emph{LDD characteristics} is the function of $I(X,Y)$ w.r.t $D$.
 
 \begin{multicols}{2}
-\begin{equation}
+\begin{equation*}
 \begin{aligned}
 I(X;Y) = H(X) + H(Y) - H(X,Y)
 \label{eq:mut-inf-h}
 \end{aligned}
-\end{equation}
-\begin{equation}
+\end{equation*}
+\begin{equation*}
 H(X) = \log N - 1/N \sum_{i=1}^{k} N_i \psi(N_i)
 \label{eq:entropy-adj}
-\end{equation}
+\end{equation*}
+\\
+$D=$ distance between 2 symbols \\
+$dataset=$ sequence of letters \\
+$|dataset|=$ length of the sequence \\
+$N_i=$ frequency of unique symbol \emph{i} \\
+$N = \sum N_i$ \\
+$K=$ number of unique symbols \\
+$\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$ \\
 
-\begin{itemize}
-\item $D=$ distance between 2 symbols
-\item $dataset[n_1:n_2]=$ sequence between index $n_1$ to $n_2$
-\item $|dataset|=$ length of the sequence
-\item $N_i=$ frequency of unique symbol \emph{i}
-\item $N = \sum N_i$
-\item $K=$ number of unique symbols
-\item $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$
-\end{itemize}
+% \begin{itemize}
+% \item $D=$ distance between 2 symbols
+% \item $dataset[n_1:n_2]=$ sequence between index $n_1$ to $n_2$
+% \item $|dataset|=$ length of the sequence
+% \item $N_i=$ frequency of unique symbol \emph{i}
+% \item $N = \sum N_i$
+% \item $K=$ number of unique symbols
+% \item $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$
+% \end{itemize}
 \columnbreak
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -142,20 +156,23 @@ H(X) = \log N - 1/N \sum_{i=1}^{k} N_i \psi(N_i)
 
 SP\emph{k} languages form a subclass of regular languages. SP\emph{k} languages are defined by grammar \emph{G}\textsubscript{\emph{SPk}} as a set of permissible \emph{k}-\emph{subsequences}. Here, \emph{k} indicates the number of elements in a dependency. Subsequences which are not in the grammar are called \emph{forbidden subsequences}.
 
-Consider strings \emph{u, v, w}: \emph{u} = [\emph{bbcbdd}], \emph{v} = [\emph{bbdbbbcbddaa}] and \emph{w} = [\emph{bbabbbcbdd}], where \( \vert \)\emph{u}\( \vert \) = 6, \( \vert \)\emph{v}\( \vert \) = 12 and \( \vert \)\emph{w}\( \vert \) = 10. Strings \emph{u} and \emph{v} are valid SP\emph{2} strings because they are composed of subsequences that are in \emph{G\textsubscript{SP\emph{2}}}. However, \emph{w} is an invalid SP\emph{2} string because \emph{w} contains \{\emph{ab}\} a subsequence which is a \emph{forbidden subsequence}. These constraints apply for any string \emph{x} where \( \vert \)\emph{x}\( \vert \in \mathbb{Z} \).
+\begin{itemize}
+\item \( \Sigma \) = \{\emph{a, b, c, d}\} 
+\item \emph{u} = [\emph{bbcbdd}], \emph{v} = [\emph{bbdbbbcbddaa}] and \emph{w} = [\emph{bbabbbcbdd}], where \( \vert \)\emph{u}\( \vert \) = 6, \( \vert \)\emph{v}\( \vert \) = 12 and \( \vert \)\emph{w}\( \vert \) = 10.
+\end{itemize}
+Strings \emph{u} and \emph{v} are valid SP\emph{2} strings because they are composed of subsequences that are in \emph{G\textsubscript{SP\emph{2}}}. However, \emph{w} is an invalid SP\emph{2} string because \emph{w} contains \{\emph{ab}\} a subsequence which is a \emph{forbidden subsequence}. These constraints apply for any string \emph{x} where \( \vert \)\emph{x}\( \vert \in \mathbb{Z} \).
 
 Let \emph{G\textsubscript{SP\emph{3}}}  = \{\emph{aaa, aab, abb, baa, bab, bba, bbb, ...}\} and \emph{forbidden subsequence} = \{\emph{aba}\} be an SP\emph{3} grammar which is comprised of permissible $3$-\emph{subsequences}. Thus, \emph{u} = [\emph{aaaaaaab}], where \( \vert \)\emph{u}\( \vert \) = 8 is a valid SP\emph{3} string and \emph{v} = [\emph{aaaaabaab}], where \( \vert \)\emph{v}\( \vert \) = 9 is an invalid SP\emph{3} string as defined by the grammar \emph{G\textsubscript{SP\emph{3}}}.
 
 \begin{wrapfigure}{r}{0.2\textwidth}
 \begin{center}
 \includegraphics[width=0.2\textwidth]{fsa1.png}
-\captionof{figure}{Complex system plots of homogenous sampled datasets}
+\captionof{figure}{Finite-state diagram of \emph{G\textsubscript{SP2}}}
 \label{fig:fsa1}
 \end{center}
 \end{wrapfigure}
 
-Figure~\ref{fig:fsa1} depicts a finite-state diagram of \emph{G\textsubscript{SP2}}, which generates strings of synthetic data. Consider a string \emph{x} from this data, \( \forall \) generated strings \emph{x} generated using grammar \emph{G\textsubscript{SP2}}: \( \vert \)\emph{x}\( \vert \) = $6$. The \emph{forbidden subsequence} for this grammar is \{\emph{ab}\}. Since \{\emph{ab}\} is a \emph{forbidden subsequence}, the state diagram has no path (from state $0$ to state $11$) because such a path would permit the generation of strings with \{\emph{ab}\} as a subsequence, \emph{e.g.} \{\emph{abcccc}\} 
-Traversing the state diagram generates valid strings \emph{e.g.} \{\emph{accdda, caaaaa}\}.
+Finite-state diagram of \emph{G\textsubscript{SP2}} is in figure~\ref{fig:fsa1}. The \emph{forbidden subsequence} for this grammar is \{\emph{ab}\}, hence the state diagram has no path that generates strings with \{\emph{ab}\} as a subsequence, \emph{e.g.} \{\emph{abcccc}\}.
 
 %----------------------------------------------------------------------------------------
 %	RESULTS 
@@ -176,7 +193,7 @@ Traversing the state diagram generates valid strings \emph{e.g.} \{\emph{accdda,
 \begin{minipage}[b]{0.45\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_len.png}
-\captionof{figure}{Influence of LDD lenght}
+\captionof{figure}{Influence of LDD length}
 \label{fig:spk_len}
 \end{minipage}
 \end{center}
@@ -264,9 +281,9 @@ Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut a
 %	REFERENCES
 %----------------------------------------------------------------------------------------
 
-\nocite{*} % Print all references regardless of whether they were cited in the poster or not
-\bibliographystyle{plain} % Plain referencing style
-\bibliography{sample} % Use the example bibliography file sample.bib
+% \nocite{*} % Print all references regardless of whether they were cited in the poster or not
+% \bibliographystyle{plain} % Plain referencing style
+% \bibliography{sample} % Use the example bibliography file sample.bib
 
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
