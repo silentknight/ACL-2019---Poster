@@ -46,22 +46,21 @@
 \Large \texttt{abhijit.mahalunkar@mydit.ie \& john.d.kelleher@dit.ie}\\
 \end{minipage}
 
-% \vspace{1cm}
-
 %----------------------------------------------------------------------------------------
 
 \begin{multicols}{2}
-\fontfamily{pvh}\selectfont
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-%\begin{abstract}
-%
-%In order to successfully model Long Distance Dependencies (LDDs) it is necessary to understand the full-range of the characteristics of the LDDs exhibited in a target dataset. In this paper, we use Strictly \emph{k}-Piecewise languages to generate datasets with various properties. We then compute the characteristics of the LDDs in these datasets using mutual information and analyze the impact of factors such as (i) \emph{k}, (ii) length of LDDs, (iii) vocabulary size, (iv) forbidden subsequences, and (v) dataset size. This analysis reveal that the number of interacting elements in a dependency is an important characteristic of LDDs. This leads us to the challenge of modelling multi-element long-distance dependencies. Our results suggest that attention mechanisms in neural networks may aide in modeling datasets with multi-element long-distance dependencies. However, we conclude that there is a need to develop more efficient attention mechanisms to address this issue.
-%
-%\end{abstract}
+\color{tudLogoColor}
+
+% \begin{abstract}
+
+% In order to successfully model Long Distance Dependencies (LDDs) it is necessary to understand the full-range of the characteristics of the LDDs exhibited in a target dataset. Here, we generate datasets with various properties using Strictly \emph{k}-Piecewise languages and compute the characteristics of the LDDs in these datasets using mutual information and analyze the impact of these properties. It's revealed that the number of interacting elements in a dependency is an important characteristic of LDDs. This leads us to the challenge of modelling multi-element long-distance dependencies. Our results suggest that attention mechanisms in neural networks may aide in modeling datasets with multi-element long-distance dependencies. However, we conclude that there is a need to develop more efficient attention mechanisms to address this issue.
+
+% \end{abstract}
 
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
@@ -74,7 +73,7 @@
 \color{black}
 LDDs are related to the rate of decay of statistical dependence of two points with increasing time interval or spatial distance between them. To date, most research on LDDs has focused on the distance the dependency spans within the sequence. We show the complexity of LDDs not only arises from the distance but also a number of other factors, including: (i) the number of unique symbols in a dataset, (ii) the size of the dataset, (iii) the number of interacting symbols within an LDD, and (iv) the distance between the interacting symbols. We use SP\emph{k} languages to explore the complexity of LDDs.
 
-One aspect of LDDs that has been neglected in the research on LDDs is the complexity that arises from a multi-element dependency (i.e., dependencies that involves interactions between more than 2 elements). By controlling \emph{k} in the SP\emph{k} grammar, it is possible to generate datasets with varying degrees of multi-element dependency. We explore whether attention mechanism can help with multi-element LDDs using two models, Transformer-XL and AWD-LSTM.
+One aspect of LDDs that has been neglected in the research on LDDs is the complexity that arises from a multi-element long-distance dependency (ME-LDDs) i.e., dependencies that involves interactions between more than 2 elements. By controlling \emph{k} in the SP\emph{k} grammar, it is possible to generate datasets with varying degrees of multi-element dependency. We explore whether attention mechanism can help with multi-element LDDs using two models, Transformer-XL and AWD-LSTM.
 
 %----------------------------------------------------------------------------------------
 %	OBJECTIVES
@@ -96,9 +95,13 @@ One aspect of LDDs that has been neglected in the research on LDDs is the comple
 %	METHODS
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Methods}
 
 \subsection*{Long Distance Dependency Characteristics}
+
+\color{black}
 
 Mutual information $I(X,Y)$ measures dependence between random variables $X$ and $Y$. These random variables have marginal distributions $p(x)$ and $p(y)$ and are jointly distributed as $p(x,y)$. It can also be expressed using the \emph{entropy} of $X$ and $Y$ i.e. $H(X)$, $H(Y)$ and their \emph{joint entropy}, $H(X,Y)$. The \emph{LDD characteristics} is the function of $I(X,Y)$ w.r.t $D$.
 
@@ -121,16 +124,6 @@ $N_i=$ frequency of unique symbol \emph{i} \\
 $N = \sum N_i$ \\
 $K=$ number of unique symbols \\
 $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$ \\
-
-% \begin{itemize}
-% \item $D=$ distance between 2 symbols
-% \item $dataset[n_1:n_2]=$ sequence between index $n_1$ to $n_2$
-% \item $|dataset|=$ length of the sequence
-% \item $N_i=$ frequency of unique symbol \emph{i}
-% \item $N = \sum N_i$
-% \item $K=$ number of unique symbols
-% \item $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$
-% \end{itemize}
 \columnbreak
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -144,7 +137,7 @@ $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$ \\
   \State Compute $N_i^X$, $N^X$, $K^X$ for $X$
   \State Compute $N_i^Y$, $N^Y$, $K^Y$ for $Y$
   \State Compute $N_i^{XY}$, $N^{XY}$, $K^{XY}$ for $XY$
-  \State Compute $H(X)$, $H(Y)$ and $H(X,Y)$ %Eq.~\ref{eq:entropy-adj}
+  \State Compute $H(X)$, $H(Y)$ and $H(X,Y)$
   \State $I[D]\gets H(X)+H(Y)-H(X,Y)$
  \EndFor
 \caption{LDD Characteristics}\label{ldd_algo}
@@ -152,17 +145,11 @@ $\psi(N_i)=$ \emph{logarithmic derivative of the gamma function} of $N_i$ \\
 \end{algorithm}
 \end{multicols}
 
+\color{tudLogoColor}
+
 \subsection*{Strictly \emph{k}-Piecewise}
 
-SP\emph{k} languages form a subclass of regular languages. SP\emph{k} languages are defined by grammar \emph{G}\textsubscript{\emph{SPk}} as a set of permissible \emph{k}-\emph{subsequences}. Here, \emph{k} indicates the number of elements in a dependency. Subsequences which are not in the grammar are called \emph{forbidden subsequences}.
-
-\begin{itemize}
-\item \( \Sigma \) = \{\emph{a, b, c, d}\} 
-\item \emph{u} = [\emph{bbcbdd}], \emph{v} = [\emph{bbdbbbcbddaa}] and \emph{w} = [\emph{bbabbbcbdd}], where \( \vert \)\emph{u}\( \vert \) = 6, \( \vert \)\emph{v}\( \vert \) = 12 and \( \vert \)\emph{w}\( \vert \) = 10.
-\end{itemize}
-Strings \emph{u} and \emph{v} are valid SP\emph{2} strings because they are composed of subsequences that are in \emph{G\textsubscript{SP\emph{2}}}. However, \emph{w} is an invalid SP\emph{2} string because \emph{w} contains \{\emph{ab}\} a subsequence which is a \emph{forbidden subsequence}. These constraints apply for any string \emph{x} where \( \vert \)\emph{x}\( \vert \in \mathbb{Z} \).
-
-Let \emph{G\textsubscript{SP\emph{3}}}  = \{\emph{aaa, aab, abb, baa, bab, bba, bbb, ...}\} and \emph{forbidden subsequence} = \{\emph{aba}\} be an SP\emph{3} grammar which is comprised of permissible $3$-\emph{subsequences}. Thus, \emph{u} = [\emph{aaaaaaab}], where \( \vert \)\emph{u}\( \vert \) = 8 is a valid SP\emph{3} string and \emph{v} = [\emph{aaaaabaab}], where \( \vert \)\emph{v}\( \vert \) = 9 is an invalid SP\emph{3} string as defined by the grammar \emph{G\textsubscript{SP\emph{3}}}.
+\color{black}
 
 \begin{wrapfigure}{r}{0.2\textwidth}
 \begin{center}
@@ -172,25 +159,45 @@ Let \emph{G\textsubscript{SP\emph{3}}}  = \{\emph{aaa, aab, abb, baa, bab, bba, 
 \end{center}
 \end{wrapfigure}
 
+SP\emph{k} languages form a subclass of regular languages. SP\emph{k} languages are defined by grammar \emph{G}\textsubscript{\emph{SPk}} as a set of permissible \emph{k}-\emph{subsequences}. Here, \emph{k} indicates the number of elements in a dependency. Subsequences which are not in the grammar are called \emph{forbidden subsequences}. \\
+\\
+Let, \( \Sigma \) = \{\emph{a, b, c, d}\}, \emph{G\textsubscript{SP\emph{2}}} grammar is comprised of permissible \emph{2-subsequences}, with \emph{forbidden subsequence}=\{ab\}. \\
+Where, \emph{v} = [\emph{bbdbbbcbddaa}], (\( \vert \)\emph{v}\( \vert \) = 12) is a valid SP\emph{2} string. \\
+Where, \emph{w} = [\emph{bbabbbcbdd}], (\( \vert \)\emph{w}\( \vert \) = 10) is an invalid SP\emph{2} string. \\
+\\
 Finite-state diagram of \emph{G\textsubscript{SP2}} is in figure~\ref{fig:fsa1}. The \emph{forbidden subsequence} for this grammar is \{\emph{ab}\}, hence the state diagram has no path that generates strings with \{\emph{ab}\} as a subsequence, \emph{e.g.} \{\emph{abcccc}\}.
 
 %----------------------------------------------------------------------------------------
 %	RESULTS 
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Results}
 
 \subsection*{LDD Characteristics of datasets}
 
+\color{black}
+
+Here we analyze the impact of various dataset properties on \emph{LDD characteristics}. The datasets used are described below:
+
+\begin{itemize}
+    \item \textbf{\emph{k}:} Datasets of SP\emph{k} for \emph{k}${=}\{2, 4, 16 \}$ with strings of string length $l$ where $60 {\leq} l {\leq} 100$. Figure~\ref{fig:spk_k} plots the \emph{LDD Characteristics}.
+    \item \textbf{LDD length:} Datasets of SP\emph{2} with strings of maximum length $20$ $(2 {\leq} l {\leq} 20)$, $100$ $(21 {\leq} l {\leq} 100)$, $200$ $(101 {\leq} l {\leq} 200)$ and $500$ $(201 {\leq} l {\leq} 500)$. This simulates LDD lengths of $20, 100, 200$ and $500$. Figure~\ref{fig:spk_len} plots the LDD characteristics. 
+    \item \textbf{Vocabulary Size:} Datasets of SP\emph{2} where $\Sigma_1 {=} \{ a,b,c,d \}$ ($V {=} 4$) and $\Sigma_2 {=} \{ a,b,c,d,....,x,y,z \}$ ($V {=} 26$). Figure~\ref{fig:spk_v} plots the LDD characteristics.
+    \item \textbf{Forbidden Subsequences:} Datasets of SP\emph{2} where \emph{forbidden subsequences} are \{$ab, bc$\} and \{$ab, bc, cd, dc$\}. Figure~\ref{fig:spk_f} plots the LDD characteristics.
+    \item \textbf{Size of the dataset:} Datasets of SP\emph{2}, where one dataset was twice the size of the other. Figure~\ref{fig:spk_size} plots the LDD characteristics.
+\end{itemize}
+
 \begin{center}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_k.png}
 \captionof{figure}{Multi-Element Dependency (\emph{k})}
 \label{fig:spk_k}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_len.png}
 \captionof{figure}{Influence of LDD length}
@@ -199,14 +206,14 @@ Finite-state diagram of \emph{G\textsubscript{SP2}} is in figure~\ref{fig:fsa1}.
 \end{center}
 
 \begin{center}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_v.png}
 \captionof{figure}{Influence of Vocabulary}
 \label{fig:spk_v}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_f.png}
 \captionof{figure}{Different \emph{forbidden strings}}
@@ -215,14 +222,14 @@ Finite-state diagram of \emph{G\textsubscript{SP2}} is in figure~\ref{fig:fsa1}.
 \end{center}
 
 \begin{center}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_size.png}
 \captionof{figure}{Multi-Element Dependency (\emph{k})}
 \label{fig:spk_size}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.45\linewidth}
+\begin{minipage}[b]{0.4\linewidth}
 \centering
 \includegraphics[width=\textwidth]{spk_full.png}
 \captionof{figure}{All the datasets}
@@ -230,13 +237,20 @@ Finite-state diagram of \emph{G\textsubscript{SP2}} is in figure~\ref{fig:fsa1}.
 \end{minipage}
 \end{center}
 
-In hac habitasse platea dictumst. Etiam placerat, risus ac.
-
-Adipiscing lectus in magna blandit:
+\color{tudLogoColor}
 
 \subsection*{Perplexity of language models}
 
-\begin{center}
+\color{black}
+
+Here we investigate if attention mechanisms and memory networks are able to model ME-LDDs.
+
+\begin{itemize}
+    \item Transformer-XL (with attention mechanism)
+    \item AWD-LSTM (ASGD Weight-Dropped LSTM) (without attention mechanism)
+\end{itemize}
+
+\begin{center}\vspace{0.5em}
 \begin{tabular}{c c c c c | c c c c}
 \toprule
 \multirow{3}{*}{Models} & \multicolumn{8}{c}{Test Perplexity in \emph{bpc}} \\ \cline{2-9}
@@ -248,33 +262,50 @@ $2$   & $1.413$ & $1.486$ & $1.658$ & $1.708$ & $4.525$ & $4.635$ & $4.707$ & $4
 \bottomrule
 \end{tabular}
 \captionof{table}{Perplexity score of $1$: Transformer-XL and $2$: AWD-LSTM models.}
-\label{tab:perplexity_score_v4}
+\label{tab:perplexity_score}
 \end{center}
 
-\begin{wrapfigure}{r}{0.25\textwidth}
+\color{tudLogoColor}
+
+\subsubsection*{Datasets used for training}
+
+\color{black}
+
+We created 8 datasets of SP\emph{k} languages and split them into training, validation and test splits so as to be used for training. Below are the details:
+
+\begin{multicols}{2}
+\begin{itemize}
+    \item SP\emph{k} for \emph{k}${=}\{2,4,8,16\}$ for $V{=}4$
+    \item SP\emph{k} for \emph{k}${=}\{2,4,6,8\}$ for $V{=}26$
+    \item String length $l$, where $60 \leq l \leq{100}$
+    \item Training sets for $V{=}4$ contain ${\approx} 195000$ number of strings (${\approx}24MB$). 
+    \item Training sets for $V{=}26$ contain ${\approx} 222000$ number of strings (${\approx}40MB$).
+    \item Test and Validation sets contain ${\approx} 16000$ strings (${\approx}2MB$).
+\end{itemize}
+\columnbreak
 \begin{center}
-\includegraphics[width=0.25\textwidth]{perplexity.png}
-\captionof{figure}{Complex system plots of homogenous sampled datasets}
+\includegraphics[width=0.2\textwidth]{perplexity.png}
+\captionof{figure}{Perplexity scores of Transformer-XL and AWD-LSTM}
 \label{fig:perplexity}
 \end{center}\vspace{1cm}
-\end{wrapfigure}
+\end{multicols}
 
-Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut arcu fringilla et adipiscing ligula rutrum. Aenean turpis velit, placerat eget tincidunt nec, ornare in nisl. In placerat.
-
-Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut arcu fringilla et adipiscing ligula rutrum. Aenean turpis velit, placerat eget tincidunt nec, ornare in nisl. In placerat.
-
-Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut arcu fringilla et adipiscing ligula rutrum. Aenean turpis velit, placerat eget tincidunt nec, ornare in nisl. In placerat.
+Table~\ref{tab:perplexity_score} and figure~\ref{fig:perplexity} the attention mechanism of Transformer-XL does play a part in modeling ME-LDDs. It also displays the impact of size of the vocabulary on the test perplexity score. 
 
 %----------------------------------------------------------------------------------------
 %	CONCLUSIONS
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Conclusions}
+
+\color{black}
 
 \begin{itemize}
 \item The dependencies that occur in sequential data can also be multi-element. Furthermore, the vocabulary size, and the forbidden subsequences within a grammar also contribute to the difficulty of modelling the dependencies within a dataset.
-\item Using SP\emph{k} languages it is possible to synthesize sequential datasets and control the complexity of dependencies exhibited in these datasets and using mutual information it's possible to analyze their LDD characteristics.
-\item Results suggest that attention mechanisms in neural networks may aide in modeling datasets with multi-element long-distance dependencies. Although we encourage developing more efficient models.
+\item Using SP\emph{k} languages it's possible to synthesize datasets and control the complexity of dependencies. Using mutual information it's possible to analyze their LDD characteristics.
+\item Results suggest that attention mechanisms in neural networks may aide in modeling datasets with multi-element long-distance dependencies. However, more efficient models are needed.
 \end{itemize}
 
 %----------------------------------------------------------------------------------------
@@ -289,7 +320,11 @@ Vivamus sed nibh ac metus tristique tristique a vitae ante. Sed lobortis mi ut a
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 
+\color{tudLogoColor}
+
 \section*{Acknowledgements}
+
+\color{black}
 
 This research was partly supported by the ADAPT Research Centre, funded under the SFI Research Centres Programme (Grant 13/RC/2106) and is co-funded under the European Regional Development Funds. The research was also supported by an IBM Shared University Research Award. We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Titan Xp GPU under NVIDIA GPU Grant used for this research.
 
