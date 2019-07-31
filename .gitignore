@@ -1,0 +1,9 @@
+*.log
+*.aux
+*.gz
+*.pdf
+*.blg
+*.dvi
+*.out
+*.bbl
+*.py
